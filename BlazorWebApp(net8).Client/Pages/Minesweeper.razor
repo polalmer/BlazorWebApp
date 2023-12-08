@@ -55,7 +55,7 @@
                         else
                         {
                             <svg x="@xIndex" y="@yIndex" width="36" height="36">
-                                <foreignObject width="400%" height="400%">
+                                <foreignObject width="100%" height="100%" style="align-content:stretch;justify-content:stretch">
                                     @switch (_fields[xPos, yPos].Value)
                                     {
                                         case 0:
@@ -67,22 +67,22 @@
                                             <i class="material-symbols-outlined" style="color:green">looks_two</i>
                                             break;
                                         case 3:
-                                            <i class="material-symbols-outlined" style="color:red">looks_three</i>
+                                            <i class="material-symbols-outlined" style="color:red">looks_3</i>
                                             break;
                                         case 4:
-                                            <i class="material-symbols-outlined" style="color:saddlebrown">looks_four</i>
+                                            <i class="material-symbols-outlined" style="color:saddlebrown">looks_4</i>
                                             break;
                                         case 5:
-                                            <i class="material-symbols-outlined" style="color:purple">looks_five</i>
+                                            <i class="material-symbols-outlined" style="color:purple">looks_5</i>
                                             break;
                                         case 6:
-                                            <i class="material-symbols-outlined" style="color:darkcyan">looks_six</i>
+                                            <i class="material-symbols-outlined" style="color:darkcyan">looks_6</i>
                                             break;
                                         case 7:
-                                            <i class="material-symbols-outlined" style="color:darkolivegreen">looks_seven</i>
+                                            <i class="material-symbols-outlined" style="color:darkolivegreen">looks_7</i>
                                             break;
                                         case 8:
-                                            <i class="material-symbols-outlined" style="color:darkslategray">looks_eight</i>
+                                            <i class="material-symbols-outlined" style="color:darkslategray">looks_8</i>
                                             break;
                                         default:
                                             @if (_won)
