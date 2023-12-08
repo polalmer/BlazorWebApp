@@ -1,22 +1,27 @@
 @page "/minesweeper"
 @rendermode InteractiveAuto
 
-@using MudBlazor;
 @using static BlazorWebApp_net8_.Client.Pages.Minesweeper;
 
-<MudText Typo="Typo.h2">Minesweeper</MudText>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+
+<h2>Minesweeper</h2>
 <div class="d-flex pa-2 ma-2">
 
-    <MudSlider Class="pa-2 ma-2" Min="4" Max="30" ValueLabel="true" @bind-Value="_gridsize">Size</MudSlider>
-    <MudSlider Min="1" Max="@(_gridsize*_gridsize-1)" ValueLabel="true" @bind-Value="_mineAmount">Bombs</MudSlider>
-    <MudText Typo="Typo.h6"> Flags left: @_flagCount </MudText>
+    <input type="range" min="4" max="40" @bind="_gridsize" />
+    <p>Grid size: @_gridsize</p>
 
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="StartNewGame" Class="pa-2 ma-2">New Game</MudButton>
+    <input type="range" min="1" max="@(_gridsize*_gridsize-1)" @bind="_mineAmount" />
+    <p>Mines: @_mineAmount</p>
+
+    <button class="btn btn-primary" @onclick="StartNewGame">New game</button>
 
     <div class="d-block">
         @if (_won)
         {
-            <MudText Typo="Typo.h6"> @_elapsedTime </MudText>
+            <text>Time:</text>@_elapsedTime
         }
     </div>     
 
@@ -25,76 +30,77 @@
 @if (_playing)
 {      
     <div class="d-flex">
-        <MudPaper Elevation="1" Width="350" Height="350">
-            <svg height="@_mapSize" width="@_mapSize">
-                @for (int yIndex = 2; yIndex < _mapSize; yIndex += FieldSize)
+        <svg height="@_mapSize" width="@_mapSize">
+            @for (int yIndex = 2; yIndex < _mapSize; yIndex += FieldSize)
+            {
+                int yPos = yIndex / FieldSize;
+                @for (int xIndex = 2; xIndex < _mapSize; xIndex += FieldSize)
                 {
-                    int yPos = yIndex / FieldSize;
-                    @for (int xIndex = 2; xIndex < _mapSize; xIndex += FieldSize)
+                    int xPos = xIndex / FieldSize;
+                    @if (_fields[xPos, yPos].Flagged)
                     {
-                        int xPos = xIndex / FieldSize;
-                        @if (_fields[xPos, yPos].Flagged)
+                        <svg x="@xIndex" y="@yIndex" width="36" height="36" @oncontextmenu="FlagField" @oncontextmenu:preventDefault="true">
+                        <foreignObject width="200%" height="200%">
+                                <i class="material-symbols-outlined" style="color:red">flag</i>
+                        </foreignObject>
+                        </svg>                                                                                     
+                    }
+                    else
+                    {
+                        @if (!_fields[xPos, yPos].Visible)
                         {
-                            <svg x="@xIndex" y="@yIndex" width="36" height="36" @oncontextmenu="FlagField" @oncontextmenu:preventDefault="true">
-                                <rect width="36" height="36" fill="#f5f5f5"></rect>
-                                <MudIcon Icon="@Icons.Material.Filled.Flag" Style="fill:red"></MudIcon>
-                            </svg>                                                                                     
+                            <rect x="@xIndex" y="@yIndex" rx="5 " ry="5" width="36" height="36" style="fill:gray"
+                                @onclick="UncoverField" @oncontextmenu="FlagField" @oncontextmenu:preventDefault="true" />
                         }
                         else
                         {
-                            @if (!_fields[xPos, yPos].Visible)
-                            {
-                                <rect x="@xIndex" y="@yIndex" rx="5 " ry="5" width="36" height="36" style="fill:gray"
-                                 @onclick="UncoverField" @oncontextmenu="FlagField" @oncontextmenu:preventDefault="true" />
-                            }
-                            else
-                            {
-                                <svg x="@xIndex" y="@yIndex" width="36" height="36">
+                            <svg x="@xIndex" y="@yIndex" width="36" height="36">
+                                <foreignObject width="400%" height="400%">
                                     @switch (_fields[xPos, yPos].Value)
                                     {
                                         case 0:
                                             break;
                                         case 1:
-                                            <MudIcon Icon="@Icons.Material.Filled.Filter1" Style="fill:blue"></MudIcon>
+                                            <i class="material-symbols-outlined" style="color:blue">looks_one</i>
                                             break;
                                         case 2:
-                                            <MudIcon Icon="@Icons.Material.Filled.Filter2" Style="fill:green"></MudIcon>
+                                            <i class="material-symbols-outlined" style="color:green">looks_two</i>
                                             break;
                                         case 3:
-                                            <MudIcon Icon="@Icons.Material.Filled.Filter3" Style="fill:red"></MudIcon>
+                                            <i class="material-symbols-outlined" style="color:red">looks_three</i>
                                             break;
                                         case 4:
-                                            <MudIcon Icon="@Icons.Material.Filled.Filter4" Style="fill:saddlebrown"></MudIcon>
+                                            <i class="material-symbols-outlined" style="color:saddlebrown">looks_four</i>
                                             break;
                                         case 5:
-                                            <MudIcon Icon="@Icons.Material.Filled.Filter5" Style="fill:purple"></MudIcon>
+                                            <i class="material-symbols-outlined" style="color:purple">looks_five</i>
                                             break;
                                         case 6:
-                                            <MudIcon Icon="@Icons.Material.Filled.Filter6" Style="fill:darkcyan"></MudIcon>
+                                            <i class="material-symbols-outlined" style="color:darkcyan">looks_six</i>
                                             break;
                                         case 7:
-                                            <MudIcon Icon="@Icons.Material.Filled.Filter7" Style="fill:darkolivegreen"></MudIcon>
+                                            <i class="material-symbols-outlined" style="color:darkolivegreen">looks_seven</i>
                                             break;
                                         case 8:
-                                            <MudIcon Icon="@Icons.Material.Filled.Filter8" Style="fill:darkslategrey"></MudIcon>
+                                            <i class="material-symbols-outlined" style="color:darkslategray">looks_eight</i>
                                             break;
                                         default:
                                             @if (_won)
                                             {
-                                                <MudIcon Icon="@Icons.Material.Filled.Brightness5" Style="fill:lightgreen"></MudIcon>
+                                                <i class="material-symbols-outlined" style="color:limegreen">explosion</i>
                                             }
                                             else
                                             {
-                                                <MudIcon Icon="@Icons.Material.Filled.Brightness5" Style="fill:red"></MudIcon>
+                                                <i class="material-symbols-outlined" style="color:red">explosion</i>
                                             }
                                             break;
                                     }
-                                </svg>                               
-                            }
+                                </foreignObject>
+                            </svg>                               
                         }
                     }
                 }
-            </svg>
-        </MudPaper>       
+            }
+        </svg>    
     </div> 
 }
