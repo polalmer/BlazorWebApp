@@ -1,0 +1,100 @@
+@page "/minesweeper"
+@rendermode InteractiveAuto
+
+@using MudBlazor;
+@using static BlazorWebApp_net8_.Client.Pages.Minesweeper;
+
+<MudText Typo="Typo.h2">Minesweeper</MudText>
+<div class="d-flex pa-2 ma-2">
+
+    <MudSlider Class="pa-2 ma-2" Min="4" Max="30" ValueLabel="true" @bind-Value="_gridsize">Size</MudSlider>
+    <MudSlider Min="1" Max="@(_gridsize*_gridsize-1)" ValueLabel="true" @bind-Value="_mineAmount">Bombs</MudSlider>
+    <MudText Typo="Typo.h6"> Flags left: @_flagCount </MudText>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="StartNewGame" Class="pa-2 ma-2">New Game</MudButton>
+
+    <div class="d-block">
+        @if (_won)
+        {
+            <MudText Typo="Typo.h6"> @_elapsedTime </MudText>
+        }
+    </div>     
+
+</div>
+
+@if (_playing)
+{      
+    <div class="d-flex">
+        <MudPaper Elevation="1" Width="350" Height="350">
+            <svg height="@_mapSize" width="@_mapSize">
+                @for (int yIndex = 2; yIndex < _mapSize; yIndex += FieldSize)
+                {
+                    int yPos = yIndex / FieldSize;
+                    @for (int xIndex = 2; xIndex < _mapSize; xIndex += FieldSize)
+                    {
+                        int xPos = xIndex / FieldSize;
+                        @if (_fields[xPos, yPos].Flagged)
+                        {
+                            <svg x="@xIndex" y="@yIndex" width="36" height="36" @oncontextmenu="FlagField" @oncontextmenu:preventDefault="true">
+                                <rect width="36" height="36" fill="#f5f5f5"></rect>
+                                <MudIcon Icon="@Icons.Material.Filled.Flag" Style="fill:red"></MudIcon>
+                            </svg>                                                                                     
+                        }
+                        else
+                        {
+                            @if (!_fields[xPos, yPos].Visible)
+                            {
+                                <rect x="@xIndex" y="@yIndex" rx="5 " ry="5" width="36" height="36" style="fill:gray"
+                                 @onclick="UncoverField" @oncontextmenu="FlagField" @oncontextmenu:preventDefault="true" />
+                            }
+                            else
+                            {
+                                <svg x="@xIndex" y="@yIndex" width="36" height="36">
+                                    @switch (_fields[xPos, yPos].Value)
+                                    {
+                                        case 0:
+                                            break;
+                                        case 1:
+                                            <MudIcon Icon="@Icons.Material.Filled.Filter1" Style="fill:blue"></MudIcon>
+                                            break;
+                                        case 2:
+                                            <MudIcon Icon="@Icons.Material.Filled.Filter2" Style="fill:green"></MudIcon>
+                                            break;
+                                        case 3:
+                                            <MudIcon Icon="@Icons.Material.Filled.Filter3" Style="fill:red"></MudIcon>
+                                            break;
+                                        case 4:
+                                            <MudIcon Icon="@Icons.Material.Filled.Filter4" Style="fill:saddlebrown"></MudIcon>
+                                            break;
+                                        case 5:
+                                            <MudIcon Icon="@Icons.Material.Filled.Filter5" Style="fill:purple"></MudIcon>
+                                            break;
+                                        case 6:
+                                            <MudIcon Icon="@Icons.Material.Filled.Filter6" Style="fill:darkcyan"></MudIcon>
+                                            break;
+                                        case 7:
+                                            <MudIcon Icon="@Icons.Material.Filled.Filter7" Style="fill:darkolivegreen"></MudIcon>
+                                            break;
+                                        case 8:
+                                            <MudIcon Icon="@Icons.Material.Filled.Filter8" Style="fill:darkslategrey"></MudIcon>
+                                            break;
+                                        default:
+                                            @if (_won)
+                                            {
+                                                <MudIcon Icon="@Icons.Material.Filled.Brightness5" Style="fill:lightgreen"></MudIcon>
+                                            }
+                                            else
+                                            {
+                                                <MudIcon Icon="@Icons.Material.Filled.Brightness5" Style="fill:red"></MudIcon>
+                                            }
+                                            break;
+                                    }
+                                </svg>                               
+                            }
+                        }
+                    }
+                }
+            </svg>
+        </MudPaper>       
+    </div> 
+}
