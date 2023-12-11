@@ -1,5 +1,5 @@
-using BlazorWebApp_net8_.Client.Pages;
-using BlazorWebApp_net8_.Components;
+using BlazorWebApp.Client.Pages;
+using BlazorWebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 

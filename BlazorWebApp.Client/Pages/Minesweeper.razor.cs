@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using System.Diagnostics;
 
-namespace BlazorWebApp_net8_.Client.Pages;
+namespace BlazorWebApp.Client.Pages;
 
 public partial class Minesweeper
 {
