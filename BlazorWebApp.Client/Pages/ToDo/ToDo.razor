@@ -6,9 +6,11 @@
 <ul>
     @foreach(ToDoItem item in toDoList)
     {
-        <li>
+        <li class="List-Item">
             <input @bind=item.Title/>
-            <i class="material-symbols-outlined" style="color:blue; font-size: 34px;">delete</i>
+            <i id="trashIcon" class="material-symbols-outlined"@onclick="() => Remove(item)">
+                delete
+            </i>
         </li>
     }
 </ul>
@@ -27,5 +29,9 @@
     void AddToDo(){
         if(ToDoBinder is null) return;
         toDoList.Add(new(ToDoBinder));
+    }
+
+    void Remove(ToDoItem item){
+        toDoList.Remove(item);
     }
 }

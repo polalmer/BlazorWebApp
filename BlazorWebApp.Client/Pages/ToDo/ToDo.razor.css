@@ -3,3 +3,14 @@
    margin: 2%;
    background-color:blueviolet;
 }
+
+#trashIcon{
+   color:red;
+   font-size: 24px;
+   cursor: pointer;
+}
+
+.List-Item{
+   justify-items: center;
+   align-items: center;
+}
