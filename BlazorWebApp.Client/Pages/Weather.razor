@@ -12,7 +12,9 @@
     <p><em>Loading...</em></p>
 }
 else
-{
+{   
+    <i class="material-symbols-outlined" style="color:blue font-size: 34px; cursor:pointer;" 
+    @onclick="async () => await FetchWeather()">refresh</i>
     <table class="table">
         <thead>
             <tr>
@@ -39,7 +41,7 @@ else
 @code {
     private List<WeatherForecast>? forecasts;
 
-    protected override async Task OnInitializedAsync()
+    private async Task FetchWeather()
     {
         using(HttpClient httpClient = new())
         {
@@ -47,7 +49,12 @@ else
             forecasts = await response.Content.ReadFromJsonAsync<List<WeatherForecast>>();
         };
     }
-    
+
+    protected override async Task OnInitializedAsync()
+    {
+        await FetchWeather();
+    }
+
     public class WeatherForecast
     {
         public DateOnly Date { get; set; }
