@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using static BlazorWebApp.Components.Pages.Weather;
+using static BlazorWebApp.Client.Pages.Weather;
 
 namespace BlazorWebApp.Controllers;
 
@@ -10,6 +10,7 @@ public class APIController : ControllerBase
     [HttpGet("Weather")]
     public async Task<List<WeatherForecast>> Get()
     {
+        //Imagine fancy service
         // Simulate asynchronous loading to demonstrate streaming rendering
         await Task.Delay(500);
 
