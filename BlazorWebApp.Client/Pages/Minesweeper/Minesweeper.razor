@@ -3,28 +3,22 @@
 
 @using static BlazorWebApp.Client.Pages.Minesweeper.Minesweeper;
 
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-</head>
-
 <h2>Minesweeper</h2>
-<div class="d-flex pa-2 ma-2">
-
-    <input type="range" min="4" max="40" @bind="_gridsize"/>
+<div class="InputHeader">
+    <input class="slider" type="range" min="4" max="40" @bind="_gridsize"/>
     <p>Grid size: @_gridsize</p>
 
-    <input type="range" min="1" max="@(_gridsize*_gridsize-1)" @bind="_mineAmount"/>
+    <input class="slider" type="range" min="1" max="@(_gridsize*_gridsize-1)" @bind="_mineAmount"/>
     <p>Mines: @_mineAmount</p>
 
-    <button class="btn btn-primary" @onclick="StartNewGame">New game</button>
+    <button class="btn btn-primary" style="padding:4px; margin:4px;" @onclick="StartNewGame">New game</button>
 
-    <div class="d-block">
+    <div style="padding:4px; margin:4px;">
         @if (_won)
         {
             <text>Time:</text>@_elapsedTime
         }
     </div>     
-
 </div>
 
 @if (_playing)
