@@ -1,0 +1,31 @@
+@page "/todo"
+@rendermode InteractiveAuto
+
+<PageTitle>ToDo</PageTitle>
+
+<ul>
+    @foreach(ToDoItem item in toDoList)
+    {
+        <li>
+            <input @bind=item.Title/>
+            <i class="material-symbols-outlined" style="color:blue; font-size: 34px;">delete</i>
+        </li>
+    }
+</ul>
+
+<input placeholder="Something todo" @bind=ToDoBinder/>
+<button class="button" @onclick=AddToDo>Add</button>
+
+@code{
+    private List<ToDoItem> toDoList = [];
+
+    class ToDoItem(string title){
+        public string Title = title ?? string.Empty;
+    }    
+
+    private string? ToDoBinder;
+    void AddToDo(){
+        if(ToDoBinder is null) return;
+        toDoList.Add(new(ToDoBinder));
+    }
+}
