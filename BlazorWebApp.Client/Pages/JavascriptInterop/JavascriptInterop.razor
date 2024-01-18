@@ -1,0 +1,11 @@
+@page "/jsinterop"
+@rendermode InteractiveAuto
+@inject IJSRuntime JS
+
+<button class="button" @onclick=AlertJS>Alert JS</button>
+
+@code{
+    void AlertJS(){
+        JS.InvokeAsync<string>("alert","invoked JS funtion from Blazor");
+    }
+}
