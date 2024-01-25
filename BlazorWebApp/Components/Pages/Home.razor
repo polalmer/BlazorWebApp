@@ -1,7 +1,24 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+@switch(pictureCounter){
+    case 0:
+        <p>What is Blazor?</p>
+        break;
+    case 1:
+        <BlazorWebApp.Client.Pages.Counter></BlazorWebApp.Client.Pages.Counter>
+        break;
+    case 2:
+        <img src="Pictures/BlazorDifferenzierung.png" height="1200px" width="1200px" />
+        break;
+    default:
+        break;
 
-Welcome to your new app.
+}
+<button @onclick="() => {pictureCounter++;}">next page</button>    
+
+@code{
+    private int pictureCounter = 0;
+}
