@@ -1,21 +1,24 @@
-﻿@page "/weather"
-@rendermode InteractiveAuto
-@using Classes;
+﻿@page "/weatherWithoutAPI"
 
-<PageTitle>Weather</PageTitle>
+<!--
+  Without specifiyng the component as Interactive
+  Blazor will prerender it as SSR -> static server side rendering 
+-->
+@rendermode InteractiveServer
 
-<h1>Weather</h1>
+@using Client.Classes;
+@using Controllers;
 
-<p>This component demonstrates showing data.</p>
+<h3>WeatherServer</h3>
 
 @if (forecasts == null)
 {
     <p><em>Loading...</em></p>
 }
 else
-{   
-    <i class="material-symbols-outlined" style="color:blue font-size: 34px; cursor:pointer;" 
-    @onclick="async () => await FetchWeather()">refresh</i>
+{
+    <i class="material-symbols-outlined" style="color:blue font-size: 34px; cursor:pointer;"
+       @onclick="async () => await FetchWeather()">refresh</i>
     <table class="table">
         <thead>
             <tr>
@@ -40,20 +43,16 @@ else
 }
 
 @code {
-
     private List<WeatherForecast>? forecasts;
 
     private async Task FetchWeather()
     {
-        using(HttpClient httpClient = new())
-        {
-            var response = await httpClient.GetAsync("http://localhost:5289/Api/Controller/Weather");
-            forecasts = await response.Content.ReadFromJsonAsync<List<WeatherForecast>>();
-        };
+        forecasts = await WeatherService.GetWeatherForecastsAsync();
     }
 
     protected override async Task OnInitializedAsync()
     {
         await FetchWeather();
     }
+
 }
