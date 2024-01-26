@@ -1,23 +1,30 @@
 ﻿@page "/"
 @rendermode InteractiveServer
+@using BlazorWebApp.Client.Pages
 
 <PageTitle>Home</PageTitle>
 
-@switch(pictureCounter){
-    case 0:
-        <p>What is Blazor?</p>
-        break;
-    case 1:
-        <BlazorWebApp.Client.Pages.Counter></BlazorWebApp.Client.Pages.Counter>
-        break;
-    case 2:
-        <img src="Pictures/BlazorDifferenzierung.png" height="1200px" width="1200px" />
-        break;
-    default:
-        break;
+<div style="padding:10px; margin:10px;">
+    @switch (pictureCounter)
+    {
+        case 0:
+            <p>What is Blazor?</p>
+            break;
+        case 1:
+            <Counter></Counter>
+            break;
+        case 2:
+            <img src="Pictures/BlazorDifferenzierung.png" height="1200px" width="1200px" />
+            break;
+        default:
+            break;
 
-}
-<button @onclick="() => {pictureCounter++;}">next page</button>    
+    }
+</div>
+
+
+<button @onclick="() => {pictureCounter--;}">previous</button>
+<button @onclick="() => {pictureCounter++;}">next page</button>   
 
 @code{
     private int pictureCounter = 0;

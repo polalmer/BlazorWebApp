@@ -2,9 +2,10 @@
 
 <!--
   Without specifiyng the component as Interactive
-  Blazor will prerender it as SSR -> static server side rendering 
+  Blazor will prerender it as static SSR -> static server side rendering 
 -->
 @rendermode InteractiveServer
+@inject IWeatherService weatherservice
 
 @using Client.Classes;
 @using Controllers;
@@ -47,7 +48,7 @@ else
 
     private async Task FetchWeather()
     {
-        forecasts = await WeatherService.GetWeatherForecastsAsync();
+        forecasts = await weatherservice.GetWeatherForecastsAsync();
     }
 
     protected override async Task OnInitializedAsync()

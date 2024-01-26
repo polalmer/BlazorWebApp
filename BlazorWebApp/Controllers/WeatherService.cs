@@ -2,11 +2,11 @@
 
 namespace BlazorWebApp.Controllers;
 
-public static class WeatherService
+public class WeatherService : IWeatherService
 {
     private static readonly List<string> summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
 
-    public static async Task<List<WeatherForecast>> GetWeatherForecastsAsync()
+    public async Task<List<WeatherForecast>> GetWeatherForecastsAsync()
     {
         await Task.Delay(500);
 
